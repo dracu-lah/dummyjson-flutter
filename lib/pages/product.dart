@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatelessWidget {
-  final product;
+  final Map<String, dynamic> product;
 
   const ProductScreen({super.key, required this.product});
 
@@ -9,7 +9,7 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product Details'),
+        title: Text('Product Details - ${product['id']}'),
       ),
       body: Center(
         child: Padding(
@@ -17,33 +17,36 @@ class ProductScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  product['images'][0],
+                  width: 900,
+                  height: 300,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 10),
               Text(
                 product['title'],
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 'Price: \$${product['price']}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 product['description'],
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
-              ),
-              SizedBox(height: 10),
-              Image.network(
-                product['images'][0],
-                width: 200,
-                height: 200,
-                fit: BoxFit.cover,
               ),
             ],
           ),
