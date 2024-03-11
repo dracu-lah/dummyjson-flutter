@@ -1,3 +1,4 @@
+import 'package:api_call/pages/product.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var usersList;
+  var products;
   @override
   void initState() {
     // TODO: implement initState
@@ -23,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       var response = await Dio().get('https://dummyjson.com/products');
       setState(() {
-        usersList = response.data["products"] as List;
+        products = response.data["products"] as List;
       });
     } catch (e) {
       rethrow;
@@ -42,19 +43,26 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                onTap: () => print('hello'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductScreen(product: products[index]),
+                    ),
+                  );
+                },
                 leading: ClipRect(
                   child: Image.network(
-                    usersList[index]['images'][0],
+                    products[index]['images'][0],
                     width: 80,
                   ),
                 ),
-                title: Text(usersList[index]['title']),
-                subtitle: Text(usersList[index]['description']),
+                title: Text(products[index]['title']),
+                subtitle: Text(products[index]['description']),
               ),
             );
           },
-          itemCount: usersList == null ? 0 : usersList.length,
+          itemCount: products == null ? 0 : products.length,
         ),
       ),
     );
